@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+// auth routes http://127.0.0.1:8000/api/auth/login
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
