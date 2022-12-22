@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PostController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,7 @@ use App\Http\Controllers\OrderController;
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
-// Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
+Route::apiResource('posts', PostController::class);//->middleware('auth:sanctum');
 
 // Route::post('/orders', [OrderController::class, 'loginUser']);
 
