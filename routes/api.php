@@ -24,8 +24,9 @@ Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
 Route::apiResource('posts', PostController::class);//->middleware('auth:sanctum');
 
-// Route::post('/orders', [OrderController::class, 'loginUser']);
-Route::post('/order', [OrderController::class, 'createInvoice' ] );
+Route::post('/order/xendit/create-invoice', [OrderController::class, 'XenditCreateInvoice' ] );
+Route::post('/order/midtrans/create-invoice', [OrderController::class, 'MidtransCreateInvoice' ] );
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

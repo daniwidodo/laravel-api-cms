@@ -11,6 +11,7 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "*",
         "laravel/tinker": "^2.5",
+        "midtrans/midtrans-php": "^2.5",
         "xendit/xendit-php": "^2.19"
     },
     "require-dev": {

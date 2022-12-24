@@ -3,21 +3,26 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Xendit\Xendit;
 
-class XenditServiceProvider extends ServiceProvider
+class MidtransServiceProvider extends ServiceProvider
 {
 
     function __construct()
     {
-        Xendit::setApiKey(env('XENDIT_API_KEY'));
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = env('MIDTRANS_API_KEY');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
     }
-
-        // /**
-    //  * Register services.
-    //  *
-    //  * @return void
-    //  */
+    /**
+     * Register services.
+     *
+     * @return void
+     */
     public function register()
     {
         //
@@ -32,7 +37,7 @@ class XenditServiceProvider extends ServiceProvider
     {
         //
     }
-    
+
     public function createInvoice($args)
     {
         $params = [
@@ -53,7 +58,4 @@ class XenditServiceProvider extends ServiceProvider
         // return $response;
         return [$params, $args, env('XENDIT_API_KEY'), $response]; // NEED RESOLVE return Xen platform relationship not found error
     }
-
-
-
 }

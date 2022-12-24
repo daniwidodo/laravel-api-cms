@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\MidtransServiceProvider;
 use Illuminate\Http\Request;
-use App\Providers\XenditServiceProvider as Service;
+use App\Providers\XenditServiceProvider;
 class OrderController extends Controller
 {
-    //
-    public function createInvoice(Request $request) {
+    public function XenditCreateInvoice(Request $request) {
 
-        $service = new Service();
+        $service = new XenditServiceProvider();
+        return $service->createInvoice($request->all());
+    }
+    public function MidtransCreateInvoice(Request $request) {
 
+        $service = new MidtransServiceProvider();
         return $service->createInvoice($request->all());
     }
 }
