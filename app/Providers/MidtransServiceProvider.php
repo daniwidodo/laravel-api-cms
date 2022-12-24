@@ -40,22 +40,92 @@ class MidtransServiceProvider extends ServiceProvider
 
     public function createInvoice($args)
     {
-        $params = [
-            'external_id' => 'demo_147580196270',
-            'payer_email' => 'sample_email@xendit.co',
-            'description' => 'Trip to Bali',
-            'amount' => 32000,
-            'for-user-id' => '5c2323c67d6d305ac433ba20'
-        ];
+        $transaction_details = array(
+            'order_id'    => time(),
+            'gross_amount'  => 200000
+        );
 
-        try {
-            $response = \Xendit\Invoice::create($params);
-        } catch (\Throwable $e) {
-            $response['message'] = $e->getMessage();
-        }
+        $items = array(
+            array(
+                'id'       => 'item1',
+                'price'    => 100000,
+                'quantity' => 1,
+                'name'     => 'Adidas f50'
+            ),
+            array(
+                'id'       => 'item2',
+                'price'    => 50000,
+                'quantity' => 2,
+                'name'     => 'Nike N90'
+            )
+        );
 
-        logger($response);
-        // return $response;
-        return [$params, $args, env('XENDIT_API_KEY'), $response]; // NEED RESOLVE return Xen platform relationship not found error
+        // Populate customer's billing address
+        $billing_address = array(
+            'first_name'   => "Andri",
+            'last_name'    => "Setiawan",
+            'address'      => "Karet Belakang 15A, Setiabudi.",
+            'city'         => "Jakarta",
+            'postal_code'  => "51161",
+            'phone'        => "081322311801",
+            'country_code' => 'IDN'
+        );
+
+        // Populate customer's shipping address
+        $shipping_address = array(
+            'first_name'   => "John",
+            'last_name'    => "Watson",
+            'address'      => "Bakerstreet 221B.",
+            'city'         => "Jakarta",
+            'postal_code'  => "51162",
+            'phone'        => "081322311801",
+            'country_code' => 'IDN'
+        );
+
+        // Populate customer's info
+        $customer_details = array(
+            'first_name'       => "Andri",
+            'last_name'        => "Setiawan",
+            'email'            => "test@test.com",
+            'phone'            => "081322311801",
+            'billing_address'  => $billing_address,
+            'shipping_address' => $shipping_address
+        );
+
+        // Token ID from checkout page
+        $token_id = 'token';// $_POST['token_id'];
+
+        // Transaction data to be sent
+        $transaction_data = array(
+            'payment_type' => 'credit_card',
+            'credit_card'  => array(
+                'token_id'      => $token_id,
+                'authentication' => true,
+                //        'bank'          => 'bni', // optional to set acquiring bank
+                //        'save_token_id' => true   // optional for one/two clicks feature
+            ),
+            'transaction_details' => $transaction_details,
+            'item_details'        => $items,
+            'customer_details'    => $customer_details
+        );
+
+        $response = \Midtrans\CoreApi::charge($transaction_data);
+
+
+        return [$args, env('MIDTRANS_API_KEY'), $response]; // need HTTPS
+
+    }
+
+    public function createSnapInvoice($args)
+    {
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => rand(),
+                'gross_amount' => 10000,
+            )
+        );
+        
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return [$snapToken];
     }
 }

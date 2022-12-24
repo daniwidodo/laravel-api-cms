@@ -17,4 +17,10 @@ class OrderController extends Controller
         $service = new MidtransServiceProvider();
         return $service->createInvoice($request->all());
     }
+
+    public function MidtransCreateSnapInvoice(Request $request) {
+
+        $service = new MidtransServiceProvider();
+        return $service->createSnapInvoice($request->all());
+    }
 }
