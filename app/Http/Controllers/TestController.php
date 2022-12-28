@@ -48,17 +48,17 @@ class TestController extends Controller
     {
         //
         if ($postId == 1) {
-            return response()->json([
+            return response()->json( array(
                 'response' => true,
                 'postId' => $postId,
                 'userId' => $userId
-            ]);
+            ), 201);
         } else {
-            return response()->json([
+            return response()->json( array(
                 'response' => false,
                 'postId' => $postId,
                 'userId' => $userId
-            ]);
+            ), 202);
         }
         // return response()->json(
         //     array(
