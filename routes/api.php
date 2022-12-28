@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PostController;
-
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +27,8 @@ Route::apiResource('posts', PostController::class);//->middleware('auth:sanctum'
 Route::post('/order/xendit/create-invoice', [OrderController::class, 'XenditCreateInvoice' ] );
 Route::post('/order/midtrans/create-invoice', [OrderController::class, 'MidtransCreateInvoice' ] );
 Route::post('/order/midtrans/create-snap-invoice', [OrderController::class, 'MidtransCreateSnapInvoice' ] );
+
+Route::post('/test-controller/{postId}/{userId}', [TestController::class, 'show' ] );
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
